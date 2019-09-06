@@ -12,6 +12,8 @@ class lieu_validation extends Controller
 {
     public function valider(Request $request){
 
+    $date=date('d-m-Y');
+
     $controle= DB::table('historiqueselections')->where('historiqueselections.id','=',Auth::user()->id)->where('historiqueselections.num_offre','=',$request->get('value'))->count();
     
 
@@ -77,6 +79,29 @@ class lieu_validation extends Controller
    
 
     $choix= DB::table('attribution_zones')->where('attribution_zones.num_offre','=',$request->get('value'))->get();
+
+    $date= DB::table('appel_d_offres')->where('appel_d_offres.id','=',$request->get('value'))->get();
+
+    foreach($date as $date){
+
+    $date2=$date->Date_debut;
+
+
+    }
+
+    $Mail=Auth::user()->email;
+    $nom=Auth::user()->name;
+
+    $time=abs(strtotime($date2) - strtotime($date));
+
+    $time=$time-86400;
+
+    Mail::later($time,'emails.Notification_Rappel_offre',['nom'=>$nom],function($message) use ($Mail){
+
+ $message->to($Mail)->subject('Rappel Appel d_offre');
+
+
+});
 
 
      return view('choix_affectation',compact('request','var1','choix'));

@@ -3,11 +3,14 @@
     "",
     "\\app",
     "\\app\\Http",
-    "\\database",
-    "\\database\\migrations",
+    "\\app\\Http\\Controllers",
+    "\\app\\Http\\Controllers\\admin",
     "\\resources",
-    "\\routes"
+    "\\resources\\views",
+    "\\resources\\views\\Admin",
+    "\\resources\\views\\auth",
+    "\\resources\\views\\layouts"
   ],
-  "SelectedNode": "\\resources\\views",
+  "SelectedNode": "\\resources\\views\\auth\\login.blade.php",
   "PreviewInSolutionExplorer": false
 }

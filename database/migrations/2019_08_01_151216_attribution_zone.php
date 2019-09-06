@@ -20,6 +20,8 @@ class AttributionZone extends Migration
              $table->integer('nbr_ops');
                $table->integer('num_offre');
             $table->foreign('num_offre')->references('id')->on('appel_d_offre');
+            $table->integer('renumeration');
+            
             $table->timestamp('created_at')->nullable();
         });
     }

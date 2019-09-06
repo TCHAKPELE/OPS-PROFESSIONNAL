@@ -14,7 +14,7 @@ class Enregistrer_test extends Controller
 {
     public function save(Request $request){
 
-
+    $date=date('d-m-Y');
     
     $formations= DB::table('formations')->where('formations.id_formation','=',$request->get('value'))->get();
 
@@ -28,17 +28,21 @@ class Enregistrer_test extends Controller
     }
 
 
-   $a=DB::table('historiqueformations')->where('historiqueformations.id_formation','=',$request->get('value'))->where('historiqueformations.id_users','=',Auth::user->id)->count();
-    
-   $date=date('d-m-Y');
+   $a=DB::table('historiqueformations')->where('historiqueformations.id_formation','=',$request->get('value'))->where('historiqueformations.id_users','=',Auth::user()->id)->count();
+   
+
    $date2=$x3;
      
-     if($date<$date2){
+     if($date2<$date){
 
 
      if($a==0){
 
     
+
+    $time=abs(strtotime($date2) - strtotime($date));
+    
+    $time=$time-86400;
 
     $historique= new Historiqueformation;
 
@@ -65,6 +69,13 @@ class Enregistrer_test extends Controller
 
 });
 
+ Mail::later($time,'emails.Notification_Rappel_mise_a_niveau',['nom'=>$nom,'test'=>$test],function($message) use ($email){
+
+ $message->to($email)->subject('Rappel_Examen');
+
+
+});
+
  $request->session()->flash('msg2','Inscription au Test de mise à niveau effectué');
 
      return view('home',compact('request'));
@@ -75,7 +86,7 @@ class Enregistrer_test extends Controller
     else {
 
     $request->session()->flash('msg1','Vous vous êtes déjà inscrit à ce test de mise à niveau');
-    $formations= DB::table('formations')->where('formations.id_type','=',4)->get();
+    $formations= DB::table('formations')->where('formations.id_type','=',2)->get();
 
      return view('liste_test',compact('formations','request'));
 	
@@ -91,7 +102,7 @@ class Enregistrer_test extends Controller
 
 
       $request->session()->flash('msg1','Délai dépassé pour ce Test');
-    $formations= DB::table('formations')->where('formations.id_type','=',4)->get();
+    $formations= DB::table('formations')->where('formations.id_type','=',2)->get();
 
      return view('liste_test',compact('formations','request'));
 	

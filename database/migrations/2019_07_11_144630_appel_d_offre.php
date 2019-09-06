@@ -17,15 +17,17 @@ class AppelDOffre extends Migration
             $table->bigIncrements('id');
             $table->string('nom_entreprise');
             $table->string('num_identification');
-           $table->datetime('Date_debut');
-              $table->datetime('Date_fin');
-            $table->integer('renumeration');
             $table->string('email');
             $table->integer('tel');
             $table->boolean('statut');
-            $table->integer('num_place');
+            $table->integer('statut2')->default(0);
+            $table->integer('num_place')->default(0);
             $table->boolean('complet');
+             $table->datetime('Date_debut')->default(null);
+              $table->datetime('Date_fin')->default(null);
+            $table->string('mot_de_passe')->default(0000);
             $table->timestamp('created_at')->nullable();
+
         });
     }
 

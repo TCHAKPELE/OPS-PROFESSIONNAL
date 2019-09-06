@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Formation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ajout_formation extends Controller
 {
@@ -21,14 +22,14 @@ public function __construct()
 
     $Exam = DB::table('formations')->where('formations.id_type','=',3)->get();
 
+    $date=date('d-m-Y');
+
     if($request->input('Date_fin')>$request->input('Date_debut'))
     {
     
-    $control= DB::table('formations')->where('formations.nom_Institut','=',$request->input('nom_Institut'))->where('formations.contact','=',$request->input('contact'))->orwhere('formations.email','=',$request->input('email'))->where('formations.nom_Institut','=',$request->input('nom_Institut'))->count();
+   
 
-    
-
-     if($control==0)
+     if($request->input('Date_debut')>$date)
      {
      
       $a= DB::table('formations')->where('formations.nom_Institut','=',$request->input('nom_Institut'))->where('formations.contact','=',$request->input('contact'))->where('formations.email','=',$request->input('email'))->where('formations.nom_formation','=',$request->input('nom_formation'))->count();
@@ -81,7 +82,7 @@ public function __construct()
      }
      else{
 
-      $request->session()->flash('msg2','Email ou contact Dejà Utilisé ');
+      $request->session()->flash('msg2','Date déjà dépassé ');
 
 
       return view('Admin.formulaire_ajout_formations',compact('request','Exam'));
@@ -110,14 +111,16 @@ public function __construct()
 
       $Exam = DB::table('formations')->where('formations.id_type','=',3)->get();
 
+       $date=date('d-m-Y');
+
   if($request->input('Date_fin')>$request->input('Date_debut'))
+
     {
     
-    $control= DB::table('formations')->where('formations.nom_Institut','=',$request->input('nom_Institut'))->where('formations.contact','=',$request->input('contact'))->orwhere('formations.email','=',$request->input('email'))->where('formations.nom_Institut','=',$request->input('nom_Institut'))->count();
-
+   
     
 
-     if($control==0)
+     if($request->input('Date_debut')>$date)
      {
      
       $a= DB::table('formations')->where('formations.nom_Institut','=',$request->input('nom_Institut'))->where('formations.contact','=',$request->input('contact'))->where('formations.email','=',$request->input('email'))->where('formations.nom_formation','=',$request->input('nom_formation'))->count();
@@ -183,7 +186,7 @@ public function __construct()
      }
      else{
 
-      $request->session()->flash('msg2','Email ou contact Dejà Utilisé ');
+      $request->session()->flash('msg2','Date déjà dépassé ');
 
 
       return view('Admin.Formulaire_ajout_examen',compact('request','Exam'));

@@ -88,7 +88,7 @@ $user->save();
     
    
 
-    $request->session()->flash('msg2','Vous vous êtes déjà inscrit à un concours OPS');
+    $request->session()->flash('msgx','Vous vous êtes déjà inscrit à un concours OPS');
     $b= DB::table('formations')->where('formations.id_type','=',3)->get();
 
     return view('liste_exam_ops',compact('request','b'));
@@ -98,7 +98,7 @@ $user->save();
     }
     else {
 
-     $request->session()->flash('msg2','Delai depassé pour ce concours OPS');
+     $request->session()->flash('msgx','Delai depassé pour ce concours OPS');
     $b= DB::table('formations')->where('formations.id_type','=',3)->get();
 
     return view('liste_exam_ops',compact('request','b'));

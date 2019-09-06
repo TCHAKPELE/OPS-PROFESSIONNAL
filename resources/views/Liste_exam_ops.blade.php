@@ -13,10 +13,10 @@
                      </div>
                      @endif
 
-                     @if($request->session()->has('msg2'))
-                     <div class="alert alert-success">
+                     @if($request->session()->has('msgx'))
+                     <div class="alert alert-danger">
                      <h2 >Alert</h2>
-                     {{$request->session()->get('msg2')}}
+                     {{$request->session()->get('msgx')}}
                      </div>
                      @endif
                      </h1></div>

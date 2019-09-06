@@ -13,6 +13,8 @@ class ajout_zone extends Controller
         $this->middleware('guest');
     }
 
+
+
       public function ajout(Request $request)
     {
      $project=Attribution_zone::all();
@@ -20,6 +22,7 @@ class ajout_zone extends Controller
     $nom_zone=$request->input('nom_zone');
      $nbr_ops=$request->input('nbr_ops');
      $num_offre=$request->input('num_offre');
+      $renumeration=$request->input('renumeration');
      
      $id_appel=$num_offre;
 Attribution_zone::create($request->all());

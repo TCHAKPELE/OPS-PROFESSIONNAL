@@ -29,6 +29,7 @@
                     <p><a href="{{route('affichage_candidat')}}" style='color:white'>Entrer les Resultats du concours OPS</a></p>
                     <p><a href="{{route('ajout_exam')}}" style='color:white'>Programmer un concours OPS ou un test de mise à niveau</a></p>
                     <p><a href="{{route('update_note')}}" style='color:white'>Consulter la liste Des candidats </a></p>
+                    <p><a href="{{route('accept')}}" style='color:white'>Consulter la liste des demandes d'adhesion </a></p>
                 </div>
                 <div class="col-sm-8 text-left"> 
                     </br>
@@ -50,6 +51,8 @@
                      {{$request->session()->get('msg2')}}
                      </div>
                      @endif
+
+                     
                     <h1 style='color:black'>A propos de OPS-PROFESSIONNAL</h1>
                     </br>
                     <p style='color:black' >Cette plateforme entièrement dédié aux personnes attirées par l'outils informatique vous permetrra à la fois de vous former en tant qu'opérateur de saisi et de vous fournir de l'emploi de façon régulier via des appels d'offres si vous respecter les critères de sélection.Des test de mise à niveau vous seront également proposé à interval regulier afin de maintenir votre niveau.cordialement l'administration</p>

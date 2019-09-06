@@ -5,10 +5,19 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Interface de connexion') }}</div>
+                <div class="card-header">{{ __('Etape 1: Identifiez vous') }}
+
+                @if($request->session()->has('msg'))
+                     <div class="alert alert-danger">
+                     <h2 >Attention</h2>
+                     {{$request->session()->get('msg')}}
+                     </div>
+                     @endif
+
+                </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login_entreprise') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -57,11 +66,7 @@
                                     {{ __('Connexion') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Mot de passe oublié?') }}
-                                    </a>
-                                @endif
+                               
                             </div>
                         </div>
                     </form>

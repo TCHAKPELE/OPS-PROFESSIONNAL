@@ -23,9 +23,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/liste', 'show_formations@show')->name('liste');
 Route::get('/update', 'show_formations@show_mine')->name('update');
-Route::get('/renseigner', 'find_formation@write')->name('renseigner');
+Route::get('/renseigner','find_formation@write')->name('renseigner');
 Route::get('/liste2','show_project@job')->name('liste2');
-Route::get('/enregister_projet', 'register_project@project_save')->name('enregister_projet');
 Route::get('/valider_inscription','inscription_formation@valider')->name('valider_inscription');
 Route::get('/update_form2','inscription_formation@choix_update')->name('update_form2');
 Route::get('/fin_projet', 'end_appel@Notification')->name('fin_projet');
@@ -38,7 +37,8 @@ Route::get('/admin','HomeController@index2')->name('admin');
 Route::get('/pratique','test_show@test')->name('pratique');
 Route::get('/logout', 'Login_administrator@logout')->name('logout');
 Route::get('/Profil','show_profil@informations')->name('Profil');
-
+Route::get('/Register_test','Enregistrer_test@save')->name('Register_test');
+Route::get('/connection','login_admin@insert')->name('connection');
 
 /*  POST routes   */
 
@@ -49,9 +49,10 @@ Route::post('/save','save_project@add_projet')->name('save');
 Route::post('/confirm','confirmation_projet@end')->name('confirm');
 Route::post('/A_control','login_admin@control2')->name('A_control');
 Route::post('/login_A','Login_administrator@login')->name('login_A');
-Route::post('/Register_test','Enregistrer_test@save')->name('Register_test');
 Route::post('/change_photo','show_profil@change')->name('change_photo');
 Route::post('/update_form','inscription_formation@update')->name('update_form');
+Route::post('/login_entreprise','login_admin@controle')->name('login_entreprise');
+
 
 
 
@@ -64,7 +65,11 @@ Route::post('/save_formation','admin\ajout_formation@fin_ajout')->name('save_for
 Route::get('/ajout_exam','admin\redirect_ajout_formation@redirect_exam')->name('ajout_exam');
 Route::post('/save_exam','admin\ajout_formation@fin_ajout2')->name('save_exam');
 Route::get('/affichage_offre','admin\liste_offre@list')->name('affichage_offre');
+Route::get('/accept','admin\liste_offre@list_entreprise')->name('accept');
+
 Route::get('/see_project','admin\liste_offre@add')->name('see_project');
+Route::get('/valider_demande','admin\liste_offre@add2')->name('valider_demande');
+Route::get('/annuler_demande','admin\liste_offre@cancel2')->name('annuler_demande');
 Route::get('/Cancel_project','admin\liste_offre@cancel')->name('Cancel_project');
 Route::get('/affichage_candidat','admin\liste_candidats@vue')->name('affichage_candidat');
 Route::get('/update_note','admin\liste_candidats@vue_note')->name('update_note');

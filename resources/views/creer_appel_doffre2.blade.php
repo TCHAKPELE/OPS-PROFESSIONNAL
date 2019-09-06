@@ -5,28 +5,35 @@
     <div class="row justify-content-center" style="margin-left: -200px; margin-right:-200px ">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" align="center">{{ __('Enregistrer un appel d_offre') }}</div>  
+                <div class="card-header" align="center">{{ __('Etape 2 : Remplissez les champs concernant l_appel d_offre ') }} </div>
+                </br>
+                 @if($request->session()->has('msg'))
+                     <div class="alert alert-danger">
+                     <h2 >Alert</h2>
+                     {{$request->session()->get('msg')}}
+                     </div>
+                     @endif
 
                 <div class="card-body">
                     <form method="POST" action="{{route('save2')}}">
                         @csrf
 
+                        <input  type="text" hidden name="id" value="{{ $appel->id}}" >
+
+
                         <div class="form-group row">
                             <label for="nom_entreprise" class="col-md-4 col-form-label text-md-right">{{ __('Nom Entreprise') }}</label>
 
                             <div class="col-md-6">
-                                <select id="nom_entreprise" type="text" class="form-control mb-2 mr-sm-2" name="nom_entreprise" value="{{ old('nom_entreprise') }}" >
-                                <option value="0"> </option>
-                                @foreach($appel as $project )
+                                <input id="nom_entreprise" type="text" readonly class="form-control @error('nom_entreprise') is-invalid @enderror" name="nom_entreprise" value="{{ $appel->nom_entreprise }}" >
 
-                                 <option value="{{$project->nom_entreprise}}">{{$project->nom_entreprise}}</option>
-
-                                @endforeach
-                                </select>
-                                
+                                @error('nom_entreprise')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-                      
                          <div class="form-group row">
                             <label for="date" class="col-md-4 col-form-label text-md-right">{{ __('Date_debut') }}</label>
 
@@ -55,13 +62,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="rénumeration" class="col-md-4 col-form-label text-md-right">{{ __('Rénumeration') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="renumeration" type="number" class="form-control" name="renumeration" required autofocus name="renumeration">
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

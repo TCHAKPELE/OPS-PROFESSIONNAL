@@ -9,6 +9,51 @@ use App\User;
 
 class login_admin extends Controller
 {
+
+
+ public function insert(Request $request)
+    {
+
+
+    return view ('authentification_entreprise',compact('request'));
+    }
+
+
+
+    public function controle(Request $request)
+
+    {
+
+    $control=DB::table('appel_d_offres')->where('appel_d_offres.mot_de_passe','=',$request->input('password'))->where('appel_d_offres.email','=',$request->input('email'))->count();
+
+
+    if ($control==1)
+
+    {
+
+    $appel= DB::table('appel_d_offres')->where('appel_d_offres.email','=',$request->input('email'))->get();
+
+
+        return view('creer_appel_doffre2',compact('appel','request'));
+
+
+
+    }
+    else {
+
+ $request->session()->flash('msg','Email ou mot de passe Incorrect');
+
+     return view ('authentification_entreprise',compact('request'));
+
+
+	
+}
+
+    }
+
+
+
+
     public function control(Request $request)
     {
 

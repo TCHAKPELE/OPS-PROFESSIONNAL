@@ -13,14 +13,14 @@ class end_appel extends Controller
 {
    public function Notification(){
 
-   $Liste_OPS= DB::table('users')->where('users.Num_ops','<>',NULL)->get();
+   $Liste_Admin= DB::table('users')->where('users.roles','=','admin')->get();
 
-   foreach($Liste_OPS as $OPS )
+   foreach($Liste_Admin as $Admin )
 
    {
-     Mail::send('emails.Notification_appel_offre',['nom'=>$OPS->name],function($message) use ($OPS){
+     Mail::send('emails.Notification_appel_offre_admin',['nom'=>$Admin->name],function($message) use ($Admin){
 
- $message->to($OPS->email)->subject('Appel doffre disponible');
+ $message->to($Admin->email)->subject('Appel doffre ajoutée');
 
 
 });

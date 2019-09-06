@@ -12,21 +12,27 @@ use Illuminate\Support\Facades\Mail;
 
 
 class save_project extends Controller
+
 {
    
 
     public function add_projet(Request $request)
+
     {
+
+    $date=date('d-m-Y');
 
      $a= DB::table('appel_d_offres')->where('appel_d_offres.nom_entreprise','=',$request->input('nom_entreprise'))->orwhere('appel_d_offres.num_identification','=',$request->input('num_identification'))->orwhere('appel_d_offres.tel','=',$request->input('tel'))->orwhere('appel_d_offres.email','=',$request->input('email'))->count();
      
      if($a>0)
      {
-     $request->session()->flash('msg','Entreprise déja enrégistré veuillez changé d"option pour l"enregistrement de votre appel doffre ');
+     $request->session()->flash('msg','Entreprise déjà enrégistré');
      return view('creer_appel_doffre',compact('request'));
 
      }
+
      else
+
      {
 
      $project=Appel_d_offre::all();
@@ -34,10 +40,9 @@ class save_project extends Controller
     $nom_entreprise=$request->input('nom_entreprise');
      $num_identification=$request->input('num_identification');
      $tel=$request->input('tel');
-     $Date_debut=$request->input('Date_debut');
      $email=$request->input('email');
-     $Date_fin=$request->input('Date_fin');
-     $renumeration=$request->input('renumeration');
+     
+     
 
 Appel_d_offre::create($request->all());
 
@@ -51,9 +56,9 @@ $id_appel=$var->id;
 
 
 
-$request->session()->flash('msg','Appel Enregistré veuillez répartir les agents par zone');
 
-Mail::send('emails.confirmation_enregistrement_appel',['nom_entreprise'=>$nom_entreprise],function($message) use ($email){
+
+Mail::send('emails.confirmation_demande',['nom_entreprise'=>$nom_entreprise],function($message) use ($email){
 
  $message->to($email)->subject('Verified');
 
@@ -62,21 +67,54 @@ Mail::send('emails.confirmation_enregistrement_appel',['nom_entreprise'=>$nom_en
 
 
 
- return view('ajout_zone',compact('project','id_appel','request'));
+$admin=DB::table('users')->where('users.roles','=','admin')->get();
+
+foreach($admin as $admin){
+
+Mail::send('emails.demande_adhesion',['nom'=>$admin->name],function($message) use ($admin){
+
+ $message->to($admin->email)->subject('Demande adhésion');
+
+
+});
+
+}
+
+
+ return view('Traitement',compact('request'));
+
+
+     }
+
+  
+
+  
 
      }
 
 
     
 
-    }
+    
 
 
     public function add_projet2(Request $request)
 
     {
 
-     $project= new Appel_d_offre;
+     $date=date('d-m-Y');
+
+
+
+     if($request->input('Date_debut')>$date)
+     {
+
+
+      if($request->input('Date_fin')>$request->input('Date_debut'))
+
+    {
+
+    $project= new Appel_d_offre;
 
     $project->nom_entreprise=$request->input('nom_entreprise');
 
@@ -107,7 +145,6 @@ $tir4=$tir->num_place;
      $project->Date_debut=$request->input('Date_debut');
     $project->email=$tir3;
      $project->Date_fin=$request->input('Date_fin');
-     $project->renumeration=$request->input('renumeration');
      $project->num_place=$tir4+1;
 
      
@@ -123,7 +160,7 @@ $id_appel=$var->id;
 
 
 
-$request->session()->flash('msg','Appel Enregistré veuillez répartir les agents par zone');
+$request->session()->flash('msg','Etape 3 : veuillez répartir les agents par zone');
 $nom_entreprise=$project->nom_entreprise;
 $email=$project->email;
 
@@ -138,6 +175,49 @@ Mail::send('emails.confirmation_enregistrement_appel',['nom_entreprise'=>$nom_en
 
  return view('ajout_zone',compact('project','id_appel','request'));
 
+
+    }
+    else {
+
+
+
+     $request->session()->flash('msg','Date_debut supérieur à Date_fin');
+
+    $appel= DB::table('appel_d_offres')->where('appel_d_offres.email','=',$request->input('email'))->get();
+
+
+        return view('creer_appel_doffre2',compact('appel','request'));
+
+
+	
+}
+
+
+
+     }
+     else {
+
+     $request->session()->flash('msg','Date Incorrect');
+
+   $appel= DB::table('appel_d_offres')->where('appel_d_offres.email','=',$request->input('email'))->get();
+
+
+        return view('creer_appel_doffre2',compact('appel','request'));
+
+
+
+
+
+
+	
+}
+
+
+
+
+   
+
+     
 
 
 
